@@ -4,13 +4,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ByReflectionValidator {
+public class MyValidator {
+
+    private MyValidator() {
+    }
 
     public static void validate(Object object) {
         Class<?> clazz = object.getClass();
 
-        Field[] declaredFields = clazz.getDeclaredFields();
-        for (Field declaredField : declaredFields) {
+        for (Field declaredField : clazz.getDeclaredFields()) {
             if (declaredField.getAnnotation(RequiredField.class) != null) {
                 try {
                     Method method = clazz.getMethod(getGetMethodName(declaredField.getName()));

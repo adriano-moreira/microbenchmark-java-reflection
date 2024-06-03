@@ -8,7 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ByReflectionValidatorWithCache {
+public class MyValidatorWithCache {
+
+    private MyValidatorWithCache() {
+    }
+
     static Map<Class<?>, Method[]> cache = new HashMap<>();
 
     public static void validate(Object object) {
