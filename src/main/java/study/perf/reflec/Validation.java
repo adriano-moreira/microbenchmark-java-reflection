@@ -1,16 +1,17 @@
 package study.perf.reflec;
 
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
-import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import study.perf.reflec.dto.Person;
 import study.perf.reflec.myframework.MyValidator;
 import study.perf.reflec.myframework.MyValidatorWithCache;
 import study.perf.reflec.myframework.RequiredFieldException;
 
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import java.util.Set;
+
+import static java.util.concurrent.TimeUnit.*;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(NANOSECONDS)
@@ -48,6 +49,21 @@ public class Validation {
             throw new RequiredFieldException("createdAt");
         }
 
+        blackhole.consume(pessoaDTO);
+    }
+
+
+    @Benchmark
+    public void hibernateValidator(ThreadState state, Blackhole blackhole) {
+        Person pessoaDTO = state.getPersonValid();
+        Validator validator = state.getJakartaValidator();
+
+        Set<ConstraintViolation<Person>> violations = validator.validate(pessoaDTO);
+        if (!violations.isEmpty()) {
+            throw new RequiredFieldException(violations.iterator().next().getPropertyPath().toString());
+        }
+
+        blackhole.consume(violations);
         blackhole.consume(pessoaDTO);
     }
 
