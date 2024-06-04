@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-JVM_LIST='adoptopenjdk-8.0.412+8 adoptopenjdk-21.0.3+9.0.LTS'
+JVM_LIST='adoptopenjdk-21.0.3+9.0.LTS'
 
 # validate required asdf-vm
 command -v asdf > /dev/null || (
