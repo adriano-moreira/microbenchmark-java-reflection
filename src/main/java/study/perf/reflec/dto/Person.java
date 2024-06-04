@@ -1,14 +1,17 @@
 package study.perf.reflec.dto;
 
+import jakarta.validation.constraints.NotNull;
 import study.perf.reflec.myframework.RequiredField;
 
 import java.util.Date;
 
 public class Person {
 
+    @NotNull
     @RequiredField
     private Long cod;
 
+    @NotNull
     @RequiredField
     private String name;
     private String email;
@@ -38,6 +41,7 @@ public class Person {
         this.email = email;
     }
 
+    @NotNull
     @RequiredField
     public Date getCreatedAt() {
         return createdAt;
